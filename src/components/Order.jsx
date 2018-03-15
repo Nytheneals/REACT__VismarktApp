@@ -4,7 +4,7 @@ class Order extends Component {
   render() {
     return (
       <div>
-        <p>Order</p>
+        <h2>Order</h2>
       </div>
     );
   }
