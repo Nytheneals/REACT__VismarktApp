@@ -20,12 +20,11 @@ class AddFishForm extends Component {
       desc: this.descRef.current.value,
       image: this.imageRef.current.value
     };
-
-    this.props.addFish(fish);
     //  THIS ADDS A FISH , METHOD COMES FROM MAIN COMPONENT, IT ADDS TO STATE..
-    // this.fishForm.reset();
+    this.props.addFish(fish);
+
     //THIS RESETS THE FORM FIELDS TO EMPTY
-    console.log(fish);
+    e.currentTarget.reset();
   };
   render() {
     return (
