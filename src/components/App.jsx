@@ -1,7 +1,10 @@
 import React, { Component } from "react";
+// COMPONENT IMPORT
+import Order from "./Order";
 import Header from "./Header";
 import Inventory from "./Inventory";
-import Order from "./Order";
+import Fish from "./Fish";
+import sampleFishes from "../sample-fishes";
 
 class App extends Component {
   state = {
@@ -9,6 +12,7 @@ class App extends Component {
     order: {}
   };
 
+  //***********************TO ADD FISH***********************//
   addFish = fish => {
     // MAKE A COPY OF THE STATE, AVOID MUTATION (PERFORMACE ISSUES, AND THINGS UPDATING OUT OF ORDER)
     const fishes = { ...this.state.fishes };
@@ -18,15 +22,46 @@ class App extends Component {
     this.setState({ fishes: fishes });
   };
 
+  //*******************TO LOAD SAMPLE FISH*******************//
+  loadSamplesFishes = () => {
+    this.setState({
+      fishes: sampleFishes
+    });
+  };
+
+  //**********************ADD TO ORDER**********************//
+  addToOrder = key => {
+    //MAKE A COPY OF THE STATE & UPDATE OUR STATE
+    const order = { ...this.state.order };
+    //  UPDATE OR ADD THE NEW NUMBER OF FISH ORDERED
+    order[key] = order[key] + 1 || 1; //THIS WILL EITHER INCREMENT OR CREATE A NEW FISH WHENEVER WE ADD TO ORDER.
+    this.setState({ order });
+  };
+
+  //********************MAIN COMPONENT********************//
   render() {
     return (
       <div className="catch-of-the-day">
         <div className="menu">
           <Header tagline="Fresh Seafood Market" />
-          <ul className="list-of-fishes" />
+          <ul className="fishes">
+            {/* CHANGING AN OBJECT INTO AN ARRAY AND USING THE KEY AS A UNIQUE KEY, REFER TO SAMPLE DATA FOR FORMAT */}
+            {Object.keys(this.state.fishes).map(key => (
+              <Fish
+                key={key}
+                index={key}
+                details={this.state.fishes[key]}
+                addToOrder={this.addToOrder}
+              />
+            ))}
+          </ul>
         </div>
-        <Order />
-        <Inventory addFish={this.addFish} />
+        <Order fishes={this.state.fishes} order={this.state.order} />
+        <Inventory
+          addFish={this.addFish}
+          loadSamplesFishes={this.loadSamplesFishes}
+          addToOrder={this.addToOrder}
+        />
       </div>
     );
   }
