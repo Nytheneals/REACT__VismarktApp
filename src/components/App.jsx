@@ -4,6 +4,7 @@ import Order from "./Order";
 import Header from "./Header";
 import Inventory from "./Inventory";
 import Fish from "./Fish";
+import base from "../base";
 import sampleFishes from "../sample-fishes";
 
 class App extends Component {
@@ -11,8 +12,24 @@ class App extends Component {
     fishes: {},
     order: {}
   };
+  //***********LIFE CYCLE METHOD***********//
+  //***********PERSISTING STATE WITH  FIREBASE***********//
+  componentDidMount() {
+    // SYNC WITH THE NAME OF THE STORE.
+    // THIS IS PROPS OFF THE APP COMPONENT
+    const { params } = this.props.match;
+    // THIS .REF IS REFERENCEING THE PARTICULAR DB
+    this.ref = base.syncState(`${params.storeId}/fishes`, {
+      context: this,
+      state: "fishes"
+    });
+  }
+  // TO PREVENT MEMORY LEAK, WE HAVE TO UNMOUNT IT
+  componentWillUnMount() {
+    base.removeBinding(this.ref);
+  }
 
-  //***********************TO ADD FISH***********************//
+  //*********** ************TO ADD FISH***********************//
   addFish = fish => {
     // MAKE A COPY OF THE STATE, AVOID MUTATION (PERFORMACE ISSUES, AND THINGS UPDATING OUT OF ORDER)
     const fishes = { ...this.state.fishes };
