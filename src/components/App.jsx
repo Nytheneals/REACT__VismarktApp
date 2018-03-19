@@ -76,6 +76,16 @@ class App extends Component {
     this.setState({ order });
   };
 
+  //*********** ************UPDATE FISH***********************//
+  updateFish = (key, updatedFish) => {
+    // MAKE A COPY OF THE STATE, AVOID MUTATION (PERFORMACE ISSUES, AND THINGS UPDATING OUT OF ORDER)
+    const fishes = { ...this.state.fishes };
+    // UPDATE THAT STATE
+    fishes[key] = updatedFish;
+    // UPDATING THE FISHES.
+    this.setState({ fishes: fishes });
+  };
+
   //********************MAIN COMPONENT********************//
   render() {
     return (
@@ -99,6 +109,8 @@ class App extends Component {
           addFish={this.addFish}
           loadSamplesFishes={this.loadSamplesFishes}
           addToOrder={this.addToOrder}
+          fishes={this.state.fishes}
+          updateFish={this.updateFish}
         />
       </div>
     );
