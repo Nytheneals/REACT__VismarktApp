@@ -6,12 +6,16 @@ class Order extends Component {
   renderOrder = key => {
     const fish = this.props.fishes[key]; //TAKES KEY OF OBJECT
     const count = this.props.order[key]; // CREATES COUNT
+    const isAvailable = fish && fish.status === "available"; // IF WE TRULLY HAVE A FISH
     const removeButton = (
       <button onClick={() => this.props.removeFromOrder(key)}>&times;</button>
     );
 
+    // DO WE HAVE ANY FISH BEFORE IT RENDERS DB FROM FIREBASE.
+    if (!fish) return null;
+
     //IF THERE'S NO FISH OR NO LONGER AVAILABLE
-    if (!fish || fish.status === "unavailable") {
+    if (!isAvailable) {
       return (
         <li key={key}>
           Sorry, {fish ? fish.name : fish} is no longer available!
@@ -24,7 +28,7 @@ class Order extends Component {
     return (
       <li key={key}>
         <span>
-          {`${count} lbs`} {fish.name} {removeButton}
+          {count} lbs {fish.name} {removeButton}
         </span>
         <span className="price">{formatPrice(count * fish.price)}</span>
       </li>
@@ -38,12 +42,12 @@ class Order extends Component {
       const fish = this.props.fishes[key];
       const count = this.props.order[key];
       const isAvailable = fish && fish.status === "available"; //CHECK WHETHER THE FISH IS AVAILABLE.
+
       if (isAvailable) {
-        return prevTotal + (count * fish.price || 0);
+        return prevTotal + count * fish.price;
       }
       return prevTotal;
     }, 0);
-
     return (
       <div className="order-wrap">
         <h2>Order</h2>

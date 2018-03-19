@@ -18,12 +18,33 @@ class App extends Component {
     // SYNC WITH THE NAME OF THE STORE.
     // THIS IS PROPS OFF THE APP COMPONENT
     const { params } = this.props.match;
+
     // THIS .REF IS REFERENCEING THE PARTICULAR DB
     this.ref = base.syncState(`${params.storeId}/fishes`, {
       context: this,
       state: "fishes"
     });
+
+    // REINSTATE OUR LOCAL STORAGE IF IT EXISTS
+    const localStorageRef = localStorage.getItem(params.storeId);
+    if (localStorageRef) {
+      this.setState({ order: JSON.parse(localStorageRef) });
+    }
   }
+
+  //***********PERSISTING STATE WITH  LOCAL STORAGE***********//
+  componentDidUpdate() {
+    // console.log(this.state.order);
+
+    // STORING TO LOCAL STORAGE,KEY -> URL, VALUE -> ORDER, AND VALUE ONE ACCEPTS STRINGS, BOOLEANS, NUMBERS
+    localStorage.setItem(
+      this.props.match.params.storeId,
+      JSON.stringify(this.state.order)
+    );
+    // const order = JSON.parse(this.state.order);
+    // this.setState({ order });
+  }
+
   // TO PREVENT MEMORY LEAK, WE HAVE TO UNMOUNT IT
   componentWillUnMount() {
     base.removeBinding(this.ref);
