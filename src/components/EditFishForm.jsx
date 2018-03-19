@@ -18,14 +18,13 @@ class EditFishForm extends Component {
 
   render() {
     //********************EDIT FISH COMPONENT********************//
-    const { name, price, status, desc } = this.props.fish;
+    const { name, price, status, desc, image } = this.props.fish;
     return (
       <div className="fish-edit">
         <input
           value={name}
           onChange={this.handleChange}
           name="name"
-          ref={this.nameRef}
           type="text"
           placeholder="Fish Name"
         />
@@ -33,7 +32,6 @@ class EditFishForm extends Component {
           value={price}
           onChange={this.handleChange}
           name="price"
-          ref={this.priceRef}
           type="text"
           placeholder="Fish Price"
         />
@@ -50,10 +48,17 @@ class EditFishForm extends Component {
           value={desc}
           onChange={this.handleChange}
           name="desc"
-          ref={this.descRef}
           placeholder="Fish Desc"
         />
-        <input ref={this.imageRef} type="text" placeholder="Fish Image" />
+        <input
+          name="image"
+          type="text"
+          value={image}
+          onChange={this.handleChange}
+        />
+        <button onClick={() => this.props.deleteFish(this.props.index)}>
+          Remove Fish
+        </button>
       </div>
     );
   }

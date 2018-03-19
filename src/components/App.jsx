@@ -76,7 +76,7 @@ class App extends Component {
     this.setState({ order });
   };
 
-  //*********** ************UPDATE FISH***********************//
+  //***********************UPDATE FISH***********************//
   updateFish = (key, updatedFish) => {
     // MAKE A COPY OF THE STATE, AVOID MUTATION (PERFORMACE ISSUES, AND THINGS UPDATING OUT OF ORDER)
     const fishes = { ...this.state.fishes };
@@ -84,6 +84,26 @@ class App extends Component {
     fishes[key] = updatedFish;
     // UPDATING THE FISHES.
     this.setState({ fishes: fishes });
+  };
+
+  //***********************REMOVE FISH***********************//
+  removeFromOrder = key => {
+    // MAKE A COPY OF THE STATE, AVOID MUTATION (PERFORMACE ISSUES, AND THINGS UPDATING OUT OF ORDER)
+    const order = { ...this.state.order };
+    // REMOVE FROM ORDER
+    delete order[key];
+    // UPDATING THE FISHES.
+    this.setState({ order });
+  };
+
+  //***********************DELETING FISH***********************//
+  deleteFish = key => {
+    // MAKE A COPY OF THE STATE, AVOID MUTATION (PERFORMACE ISSUES, AND THINGS UPDATING OUT OF ORDER)
+    const fishes = { ...this.state.fishes };
+    // DELETING FROM BOTH FIREBASE AND STATE
+    fishes[key] = null;
+    // UPDATING THE FISHES AFTER THE DELETE
+    this.setState({ fishes });
   };
 
   //********************MAIN COMPONENT********************//
@@ -104,13 +124,18 @@ class App extends Component {
             ))}
           </ul>
         </div>
-        <Order fishes={this.state.fishes} order={this.state.order} />
+        <Order
+          fishes={this.state.fishes}
+          order={this.state.order}
+          removeFromOrder={this.removeFromOrder}
+        />
         <Inventory
           addFish={this.addFish}
           loadSamplesFishes={this.loadSamplesFishes}
           addToOrder={this.addToOrder}
           fishes={this.state.fishes}
           updateFish={this.updateFish}
+          deleteFish={this.deleteFish}
         />
       </div>
     );
