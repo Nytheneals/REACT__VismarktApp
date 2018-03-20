@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 // COMPONENT IMPORT
 import Order from "./Order";
 import Header from "./Header";
@@ -11,6 +12,11 @@ class App extends Component {
   state = {
     fishes: {},
     order: {}
+  };
+
+  // PROP-TYPES
+  static propTypes = {
+    match: PropTypes.object
   };
   //***********LIFE CYCLE METHOD***********//
   //***********PERSISTING STATE WITH  FIREBASE***********//

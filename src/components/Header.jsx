@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 // STATELESS FUNCTIONAL COMPONENT (IF ITS ONLY RENDERIND JSX, AND DOESNT NEED STATE)
 
@@ -18,4 +19,7 @@ const Header = props => (
   </header>
 );
 
+Header.propTypes = {
+  tagline: PropTypes.string.isRequired
+};
 export default Header;

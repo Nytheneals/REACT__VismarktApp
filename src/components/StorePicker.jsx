@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import { getFunName } from "../helpers";
+import PropTypes from "prop-types";
 
 class StorePicker extends Component {
+  static propTypes = {
+    history: PropTypes.object
+  };
   // NEW REFs HOW TO GET DATA FROM A FORM
   myInput = React.createRef();
 
